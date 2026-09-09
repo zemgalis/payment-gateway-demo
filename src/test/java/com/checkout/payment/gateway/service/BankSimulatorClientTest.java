@@ -76,7 +76,7 @@ class BankSimulatorClientTest {
   @Test
   void processTransaction_whenGenericExceptionOccurs_shouldReturnDeclinedResponse() {
     BankPaymentRequest request = new BankPaymentRequest();
-    
+
     when(restTemplate.postForEntity(eq(mockBankUrl), any(HttpEntity.class), eq(BankPaymentResponse.class)))
         .thenThrow(new RuntimeException("Connection Refused"));
 
