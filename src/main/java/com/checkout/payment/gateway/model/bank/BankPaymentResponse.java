@@ -8,7 +8,6 @@ public class BankPaymentResponse {
   @JsonProperty("authorization_code")
   private String authorizationCode;
 
-  // Getters and Setters
   public boolean isAuthorized() { return authorized; }
   public void setAuthorized(boolean authorized) { this.authorized = authorized; }
   public String getAuthorizationCode() { return authorizationCode; }
