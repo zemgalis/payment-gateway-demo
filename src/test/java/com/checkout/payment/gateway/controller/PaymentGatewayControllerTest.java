@@ -102,7 +102,7 @@ class PaymentGatewayControllerTest {
           "cvv": "123"
         }
         """;
-    
+
     mvc.perform(MockMvcRequestBuilders.post("/payment")
             .contentType(MediaType.APPLICATION_JSON)
             .content(invalidJsonPayload))
