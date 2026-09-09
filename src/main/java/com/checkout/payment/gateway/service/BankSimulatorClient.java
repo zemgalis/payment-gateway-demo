@@ -20,7 +20,6 @@ public class BankSimulatorClient {
   private final RestTemplate restTemplate;
   private final String bankSimulatorUrl;
 
-  // We inject the RestTemplate configured in ApplicationConfiguration
   public BankSimulatorClient(RestTemplate restTemplate,
       @Value("${bank.simulator.url:http://localhost:8080/payments}") String bankSimulatorUrl) {
     this.restTemplate = restTemplate;
@@ -29,7 +28,6 @@ public class BankSimulatorClient {
 
   public BankPaymentResponse processTransaction(BankPaymentRequest request) {
     try {
-      LOG.debug("Sending payment request to Bank Simulator for amount: {}", request.getAmount());
       ResponseEntity<BankPaymentResponse> response = restTemplate.postForEntity(
           bankSimulatorUrl,
           new HttpEntity<>(request),
@@ -38,10 +36,6 @@ public class BankSimulatorClient {
       return response.getBody();
 
     } catch (HttpClientErrorException | HttpServerErrorException e) {
-      // Catches 400 Bad Request or 503 Service Unavailable from the simulator
-      LOG.warn("Bank Simulator returned an error: {} - {}", e.getStatusCode(), e.getResponseBodyAsString());
-
-      // Return a safely declined/rejected response rather than crashing the gateway
       BankPaymentResponse declinedResponse = new BankPaymentResponse();
       declinedResponse.setAuthorized(false);
       return declinedResponse;
